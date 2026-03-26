@@ -32,7 +32,7 @@ async function getAbout(): Promise<AboutData | null> {
 }
 
 export default async function AboutPage() {
-  const about: AboutData = await getAbout();
+  const about = await getAbout();
 
   const highlights = [
     {
