@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/db/connection';
 import { Admin } from '@/lib/db/models';
+import { signAccessToken, signRefreshToken, setAuthCookies } from '@/lib/auth';
 
 export async function POST(req: NextRequest) {
   try {
@@ -34,15 +35,39 @@ export async function POST(req: NextRequest) {
     if (!isBypass) {
       admin.otp = undefined;
       admin.otpExpiry = undefined;
-      await admin.save();
     }
 
-    // Return the token and role
-    return NextResponse.json({ 
+    // Generate Tokens
+    const payload = { 
+      userId: admin._id.toString(), 
+      email: admin.email, 
+      role: admin.role 
+    };
+    
+    const accessToken = signAccessToken(payload);
+    const refreshToken = signRefreshToken(payload);
+
+    // Save refresh token to DB
+    admin.refreshToken = refreshToken; // In production, hash this before saving
+    await admin.save();
+
+    // Create Response
+    const response = NextResponse.json({ 
       message: 'OTP verified successfully', 
-      token: process.env.ADMIN_SECRET || 'authenticated-session-token',
-      role: admin.role
+      role: admin.role,
+      user: {
+        email: admin.email,
+        role: admin.role
+      }
     }, { status: 200 });
+
+    // Set Cookies
+    const cookies = setAuthCookies(accessToken, refreshToken);
+    cookies.forEach(cookie => {
+      response.headers.append('Set-Cookie', cookie);
+    });
+
+    return response;
   } catch (error: any) {
     console.error('Verify OTP Error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

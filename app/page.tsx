@@ -153,7 +153,7 @@ export default async function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-black text-slate-900 dark:text-white selection:bg-indigo-500 selection:text-white transition-colors duration-300 pt-10">
+    <div className="min-h-screen bg-white dark:bg-black text-slate-900 dark:text-white selection:bg-indigo-500 selection:text-white transition-colors duration-300">
       <Navigation />
 
       {/* Dynamic Hero Section */}

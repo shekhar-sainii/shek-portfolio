@@ -23,7 +23,7 @@ export function HeroSection({ title, bio, skills, template }: HeroSectionProps) 
   return (
     <section className={cn(
       "relative flex items-center justify-center overflow-hidden transition-all duration-700",
-      isTemplate ? "min-h-0 pt-40 pb-20" : "min-h-screen pt-40 pb-40",
+      isTemplate ? "min-h-0 pt-100 pb-20" : "min-h-screen pt-90 pb-40",
       "px-6"
     )}>
       <div className={cn(

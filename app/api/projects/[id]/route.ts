@@ -5,9 +5,10 @@ import { Project } from '@/lib/db/models';
 // PUT update project (Admin only)
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const adminToken = request.headers.get('authorization');
     if (!adminToken || !process.env.ADMIN_SECRET || adminToken !== `Bearer ${process.env.ADMIN_SECRET}`) {
       return NextResponse.json(
@@ -20,7 +21,7 @@ export async function PUT(
     const data = await request.json();
 
     const project = await Project.findByIdAndUpdate(
-      params.id,
+      id,
       data,
       { new: true, runValidators: true }
     );
@@ -44,9 +45,10 @@ export async function PUT(
 // DELETE project (Admin only)
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const adminToken = request.headers.get('authorization');
     if (!adminToken || !process.env.ADMIN_SECRET || adminToken !== `Bearer ${process.env.ADMIN_SECRET}`) {
       return NextResponse.json(
@@ -56,7 +58,7 @@ export async function DELETE(
     }
 
     await connectDB();
-    const project = await Project.findByIdAndDelete(params.id);
+    const project = await Project.findByIdAndDelete(id);
 
     if (!project) {
       return NextResponse.json(
