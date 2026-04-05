@@ -17,6 +17,11 @@ You must configure the following environment variables in the Vercel Dashboard (
 | `JWT_ACCESS_SECRET`| Secret used to sign JWT access tokens. | `your-long-random-access-string` |
 | `JWT_REFRESH_SECRET`| Secret used to sign JWT refresh tokens. | `your-long-random-refresh-string` |
 | `NEXT_PUBLIC_API_URL`| Your production domain URL. | `https://your-portfolio.vercel.app` |
+| `EMAIL_USER` | Email address for sending notifications. | `your-email@gmail.com` |
+| `EMAIL_PASS` | App password for the email account. | `your-app-password` |
+| `CLOUDINARY_CLOUD_NAME`| Cloudinary Cloud Name for media. | `your-cloud-name` |
+| `CLOUDINARY_API_KEY` | Cloudinary API Key. | `your-api-key` |
+| `CLOUDINARY_API_SECRET`| Cloudinary API Secret. | `your-api-secret` |
 
 > [!IMPORTANT]
 > Ensure `NEXT_PUBLIC_API_URL` does NOT have a trailing slash.
