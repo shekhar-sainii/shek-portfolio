@@ -9,11 +9,11 @@ export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   // Only protect /admin routes (excluding login and API auth routes)
-  if (pathname.startsWith('/admin') && !pathname.startsWith('/admin/login')) {
+  if (pathname.startsWith('/admin') && !pathname.startsWith('/admin')) {
     const accessToken = req.cookies.get('accessToken')?.value;
 
     if (!accessToken) {
-      return NextResponse.redirect(new URL('/admin/login', req.url));
+      return NextResponse.redirect(new URL('/admin', req.url));
     }
 
     try {
@@ -24,13 +24,13 @@ export async function middleware(req: NextRequest) {
       console.error('Middleware JWT Error:', error);
       // If access token is invalid/expired, redirect to login
       // (The frontend or a separate interceptor can handle the refresh logic)
-      return NextResponse.redirect(new URL('/admin/login', req.url));
+      return NextResponse.redirect(new URL('/admin', req.url));
     }
   }
 
   // Protect Admin API routes (excluding login, verify-otp, refresh, logout)
   if (pathname.startsWith('/api/admin') && 
-      !pathname.startsWith('/api/admin/login') && 
+      !pathname.startsWith('/api/admin') && 
       !pathname.startsWith('/api/admin/verify-otp') &&
       !pathname.startsWith('/api/admin/refresh') &&
       !pathname.startsWith('/api/admin/logout')) {

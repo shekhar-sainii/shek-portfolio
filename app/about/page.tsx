@@ -115,7 +115,7 @@ export default async function AboutPage() {
             {/* Bio & Skills */}
             <div className="space-y-8 animate-slideInRight">
               <div>
-                <h2 className="text-3xl font-black mb-6 text-slate-900 dark:text-white italic">Hello, I&apos;m Your Name</h2>
+                <h2 className="text-3xl font-black mb-6 text-slate-900 dark:text-white italic">Hello, I&apos;m Shekhar Saini</h2>
                 <div className="text-slate-600 dark:text-gray-400 text-lg leading-relaxed space-y-4 font-medium">
                   {about?.bio ? (
                     <p>{about.bio}</p>
